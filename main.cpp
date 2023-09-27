@@ -15,12 +15,15 @@ void PrintPercent(std::ostream& out, double percent) {
 	out.precision(default_precision);
 }
 
+const std::size_t MAX_PAGES = 1000;
+
 class EBookStats {
 public:
 	using UserId = std::size_t;
 	using Page = std::size_t;
 
-	EBookStats() : pages_stats_(1000 + 1, 0) {}
+	// pages_stats_[0] will be always equal to zero (unused)
+	EBookStats() : pages_stats_(MAX_PAGES + 1, 0) {}
 
 	void SetPagesRead(UserId user_id, Page pages_read) {
 		if (user_id >= users_stats_.size()) {
@@ -140,9 +143,9 @@ void Test() {
 }
 
 int main() {
-	//EBookStats stats;
-	//ProcessRequests(stats, GetRequestCount(std::cin), std::cin, std::cout);
 	Test();
+	EBookStats stats;
+	ProcessRequests(stats, GetRequestCount(std::cin), std::cin, std::cout);
 
 	return EXIT_SUCCESS;
 }
